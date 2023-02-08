@@ -10,7 +10,10 @@
               <li class="nav-item">
                 <router-link class="nav-link" :to="{name: 'home'}">Home</router-link>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" v-if="auth">
+                <router-link class="nav-link" :to="{name: 'dashboard'}">Dashboard</router-link>
+              </li>
+              <li class="nav-item" v-if="!auth">
                 <router-link class="nav-link" :to="{name: 'login'}">Login</router-link>
               </li>
             </ul>
@@ -20,8 +23,17 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-    
+    methods: {
+        
+    },
+    computed: {
+        auth(){
+            return this.$store.getters.getAuthenticated;
+        }
+    }
 }
 </script>
 <style>

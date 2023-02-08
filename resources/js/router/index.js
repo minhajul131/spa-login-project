@@ -5,6 +5,7 @@ Vue.use(VueRouter);
 
 import Home from '../pages/Home.vue';
 import Login from '../pages/auth/Login.vue';
+import Dashboard from '../pages/dashboard/index.vue';
 
 const routes = new VueRouter({
 
@@ -19,6 +20,17 @@ const routes = new VueRouter({
             path: '/auth/login',
             component: Login,
             name: 'login',
+            meta: {
+                requiresVisitor: true,
+            }
+        },
+        {
+            path: '/dashboard',
+            component: Dashboard,
+            name: 'dashboard',
+            meta: {
+                requiresAuth: true,
+            }
         }
     ]
 });

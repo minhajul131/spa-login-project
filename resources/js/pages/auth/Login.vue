@@ -9,14 +9,16 @@
                             Login
                         </div>
                         <div class="card-body">
-                            <form action="" method="post" @click.prevent="login()">
+                            <form action="" method="post" @submit.prevent="login()">
                                 <div class="form-group">
-                                    <label for="">Email</label>
-                                    <input type="text" class="form-control" placeholder="Email">
+                                    <label for="email">Email</label>
+                                    <input type="text" v-model="loginForm.email" class="form-control" placeholder="Email" :class="{ 'is-invalid': loginForm.errors.has('email') }">
+                                    <!-- <has-error :form="loginForm" field="email"></has-error> -->
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Password</label>
-                                    <input type="password" class="form-control" placeholder="Password">
+                                    <label for="password">Password</label>
+                                    <input type="text" v-model="loginForm.password" class="form-control" placeholder="Password" :class="{ 'is-invalid': loginForm.errors.has('password') }">
+                                    <!-- <has-error :form="loginForm" field="password"></has-error> -->
                                 </div>
                                 <div class="form-group"><button class="btn btn-success px-4" type="submit">Login</button></div>
                             </form>
@@ -29,28 +31,43 @@
     </div>
 </template>
 <script>
+import {Form} from 'vform';
+
 export default {
+    data(){
+        return {
+            loginForm: new Form({
+                email: '',
+                password: ','
+            }),
+        }
+    },
     methods: {
         login(){
             axios.get('/sanctum/csrf-cookie').then(response => {
-                console.log("hello");
-                axios.post('/login',{
-                    email:'minhajul@gmail.com',
-                    password:'12345678',
-                }).then(response => {
-                    console.log(response);
-                    // this.getUserData();
+                
+                this.loginForm.post('/login').then(response => {
+                    this.$router.push({ name: 'dashboard'});
+
+                    this.$toast.success({
+                        title: 'Success!',
+                        message: 'Welcome'
+                    })
                 });
             });
         },
         getUserData(){
             axios.get('/api/user').then(response => {
-                console.log(response.data);
+                let user = response.data;
+                this.$store.commit('SET_USER', user);
+                this.$store.commit('SET_AUTHENTICATED', user);
+
+                localStorage.setItem("auth", ture);
             });
         }
     },
     mounted(){
-        this.getUserData();
+        // this.getUserData();
     }
 }
 </script>
