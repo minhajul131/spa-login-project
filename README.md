@@ -63,3 +63,25 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # spa-login-project
+-> Tarminal
+composer create-project laravel/laravel spa-login-project
+
+composer require laravel/ui && php artisan ui vue --auth
+
+npm install
+
+php artisan migrate
+
+npm run dev
+
+npm install vue-router
+
+composer require laravel/sanctum
+
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+
+axios.defaults.withCredentials = true;
+
+npm i axios vform
+
+npm install vuex@3 --save
